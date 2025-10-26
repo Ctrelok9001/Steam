@@ -1,0 +1,99 @@
+services:
+  eureka-server:
+    build: ./eureka-server
+    ports:
+      - "8761:8761"
+
+  config-server:
+    build: ./config-server
+    ports:
+      - "8888:8888"
+    depends_on:
+      - eureka-server
+
+  postgres-user:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: steam_user
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5432:5432"
+
+  postgres-game:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: gamedb
+      POSTGRES_USER: game_user
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5433:5432"
+
+  postgres-purchase:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: purchasedb
+      POSTGRES_USER: purchase_user
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5434:5432"
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+      - config-server
+      - user-service
+      - game-service
+      - purchase-service
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - eureka-server
+      - config-server
+      - postgres-user
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-user:5432/userdb
+      SPRING_DATASOURCE_USERNAME: steam_user
+      SPRING_DATASOURCE_PASSWORD: pass
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+
+  game-service:
+    build: ./game-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      - eureka-server
+      - config-server
+      - postgres-game
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-game:5432/gamedb
+      SPRING_DATASOURCE_USERNAME: game_user
+      SPRING_DATASOURCE_PASSWORD: password123
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+
+  purchase-service:
+    build: ./purchase-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka-server
+      - config-server
+      - postgres-purchase
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-purchase:5432/purchasedb
+      SPRING_DATASOURCE_USERNAME: purchase_user
+      SPRING_DATASOURCE_PASSWORD: password123
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+
+  steam-frontend:
+    build: ./steam-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api-gateway

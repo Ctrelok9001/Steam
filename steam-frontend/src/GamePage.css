@@ -1,0 +1,244 @@
+.game-page {
+    background-color: #0b141e;
+    color: #c7d5e0;
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    padding: 0 40px 80px;
+}
+
+.game-hero {
+    width: 100%;
+    height: 500px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.game-trailer {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.game-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+    margin: 20px 0;
+}
+
+.game-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.game-media {
+    flex: 2;
+    min-width: 400px;
+    display: flex;
+    justify-content: center;
+}
+
+.carousel-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.carousel {
+    position: relative;
+    max-width: 1300px;
+    width: 100%;
+}
+
+.carousel-image {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-btn {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    font-size: 1.8rem;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    z-index: 5;
+}
+
+.carousel-btn.top {
+    top: -50px;
+}
+
+.carousel-btn.bottom {
+    bottom: -50px;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: translateX(-50%) scale(1.1);
+}
+
+
+.game-details {
+    flex: 1;
+    min-width: 300px;
+    background: linear-gradient(145deg, #16202d 0%, #1c2b3a 100%);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.game-logo {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(102, 192, 244, 0.4);
+}
+
+.game-description {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.tags {
+    margin: 15px 0 25px;
+}
+
+.tags span {
+    display: inline-block;
+    background: #2a475e;
+    padding: 6px 12px;
+    margin: 5px 8px 0 0;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #66c0f4;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background 0.2s ease;
+}
+
+.tags span:hover {
+    background: #3b5e7a;
+}
+
+.buy-section {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.price {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #66c0f4;
+}
+
+.buy-button {
+    background-color: #66c0f4;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    color: #fff;
+    transition: all 0.2s ease;
+}
+
+.buy-button:hover {
+    background-color: #4da3d1;
+    transform: scale(1.05);
+}
+
+.extra-info {
+    margin-top: 60px;
+    background: rgba(22, 32, 45, 0.9);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.extra-info h2 {
+    font-size: 1.6rem;
+    color: #ffffff;
+    margin-bottom: 15px;
+    border-left: 4px solid #66c0f4;
+    padding-left: 10px;
+}
+
+.extra-info p {
+    line-height: 1.7;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #c7d5e0;
+}
+
+.extra-info ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.extra-info ul li {
+    padding: 6px 0;
+    font-size: 1rem;
+}
+
+.requirements {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.requirements div {
+    flex: 1;
+    background: rgba(12, 22, 35, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 260px;
+    box-shadow: inset 0 0 10px rgba(102, 192, 244, 0.2);
+}
+
+.requirements h3 {
+    color: #66c0f4;
+    margin-bottom: 10px;
+}
+
+.requirements p {
+    margin: 4px 0;
+    color: #bcd3e2;
+}
+
+@media (max-width: 900px) {
+    .carousel-btn.left {
+        left: 10px;
+    }
+
+    .carousel-btn.right {
+        right: 10px;
+    }
+
+    .requirements {
+        flex-direction: column;
+    }
+
+    .game-container {
+        flex-direction: column;
+    }
+
+    .game-details {
+        width: 100%;
+    }
+}
