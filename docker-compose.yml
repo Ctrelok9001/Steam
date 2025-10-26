@@ -1,8 +1,13 @@
+version: '3.9'
+
 services:
   eureka-server:
     build: ./eureka-server
     ports:
       - "8761:8761"
+    networks:
+      - steam-net
+    restart: always
 
   config-server:
     build: ./config-server
@@ -10,6 +15,9 @@ services:
       - "8888:8888"
     depends_on:
       - eureka-server
+    networks:
+      - steam-net
+    restart: always
 
   postgres-user:
     image: postgres:15
@@ -19,6 +27,9 @@ services:
       POSTGRES_PASSWORD: pass
     ports:
       - "5432:5432"
+    networks:
+      - steam-net
+    restart: always
 
   postgres-game:
     image: postgres:15
@@ -28,6 +39,9 @@ services:
       POSTGRES_PASSWORD: password123
     ports:
       - "5433:5432"
+    networks:
+      - steam-net
+    restart: always
 
   postgres-purchase:
     image: postgres:15
@@ -37,6 +51,9 @@ services:
       POSTGRES_PASSWORD: password123
     ports:
       - "5434:5432"
+    networks:
+      - steam-net
+    restart: always
 
   api-gateway:
     build: ./api-gateway
@@ -48,6 +65,13 @@ services:
       - user-service
       - game-service
       - purchase-service
+    environment:
+      - SERVER_PORT=8081
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+    networks:
+      - steam-net
+    restart: always
 
   user-service:
     build: ./user-service
@@ -62,6 +86,9 @@ services:
       SPRING_DATASOURCE_USERNAME: steam_user
       SPRING_DATASOURCE_PASSWORD: pass
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    networks:
+      - steam-net
+    restart: always
 
   game-service:
     build: ./game-service
@@ -76,6 +103,9 @@ services:
       SPRING_DATASOURCE_USERNAME: game_user
       SPRING_DATASOURCE_PASSWORD: password123
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    networks:
+      - steam-net
+    restart: always
 
   purchase-service:
     build: ./purchase-service
@@ -90,6 +120,9 @@ services:
       SPRING_DATASOURCE_USERNAME: purchase_user
       SPRING_DATASOURCE_PASSWORD: password123
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    networks:
+      - steam-net
+    restart: always
 
   steam-frontend:
     build: ./steam-frontend
@@ -97,3 +130,14 @@ services:
       - "3000:80"
     depends_on:
       - api-gateway
+    environment:
+      - VIRTUAL_HOST=steam-app.up.railway.app
+      - LETSENCRYPT_HOST=steam-app.up.railway.app
+      - LETSENCRYPT_EMAIL=your_email@gmail.com
+    networks:
+      - steam-net
+    restart: always
+
+networks:
+  steam-net:
+    driver: bridge
